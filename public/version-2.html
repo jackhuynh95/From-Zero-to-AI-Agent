@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Intelligent Automation with AI Agents</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .section {
+            min-height: 100vh; /* Each section takes at least full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            background-color: #ffffff; /* White background for sections */
+            border-bottom: 1px solid #e2e8f0; /* Subtle separator */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .section:nth-child(even) {
+            background-color: #f8fafc; /* Slightly different background for even sections */
+        }
+
+        /* Hero section specific styling */
+        #title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient background */
+            color: white;
+            justify-content: space-around;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            animation: fadeInScale 1.5s ease-out forwards;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animated-icon {
+            animation: bounceIn 1s ease-out forwards;
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Specific section animations */
+        #intro-ai-agents .content > * { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        #intro-ai-agents .content h2 { animation-delay: 0.2s; }
+        #intro-ai-agents .content ul { animation-delay: 0.5s; }
+        #intro-ai-agents .content .animated-icon { animation-delay: 0.8s; }
+
+        #ai-agents-in-action .component-box { animation: bounceIn 0.8s ease-out forwards; opacity: 0; }
+        #ai-agents-in-action .component-box:nth-child(1) { animation-delay: 0.2s; }
+        #ai-agents-in-action .component-box:nth-child(2) { animation-delay: 0.4s; }
+        #ai-agents-in-action .component-box:nth-child(3) { animation-delay: 0.6s; }
+        #ai-agents-in-action .arrow { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        #ai-agents-in-action .arrow:nth-of-type(1) { animation-delay: 0.8s; }
+        #ai-agents-in-action .arrow:nth-of-type(2) { animation-delay: 1s; }
+
+
+        #non-dev-tools .tool-card { animation: slideInLeft 1s ease-out forwards; opacity: 0; }
+        #non-dev-tools .tool-card:nth-child(even) { animation: slideInRight 1s ease-out forwards; }
+        #non-dev-tools .tool-card:nth-child(1) { animation-delay: 0.2s; }
+        #non-dev-tools .tool-card:nth-child(2) { animation-delay: 0.4s; }
+
+        #dev-tools .rag-step { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        #dev-tools .rag-step:nth-child(1) { animation-delay: 0.2s; }
+        #dev-tools .rag-step:nth-child(2) { animation-delay: 0.4s; }
+        #dev-tools .rag-step:nth-child(3) { animation-delay: 0.6s; }
+        #dev-tools .code-container { animation: fadeIn 1s ease-out forwards; animation-delay: 1s; opacity: 0; }
+
+        #advanced-use-cases .use-case-card { animation: bounceIn 0.8s ease-out forwards; opacity: 0; }
+        #advanced-use-cases .use-case-card:nth-child(1) { animation-delay: 0.2s; }
+        #advanced-use-cases .use-case-card:nth-child(2) { animation-delay: 0.4s; }
+        #advanced-use-cases .use-case-card:nth-child(3) { animation-delay: 0.6s; }
+
+        #hybrid-workflow .hybrid-icon { animation: fadeInScale 1s ease-out forwards; opacity: 0; animation-delay: 0.5s; }
+        #hybrid-workflow .tool-icon { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        #hybrid-workflow .tool-icon:nth-child(1) { animation-delay: 0.2s; }
+        #hybrid-workflow .tool-icon:nth-child(2) { animation-delay: 0.4s; }
+
+        #security-considerations .security-tip { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        #security-considerations .security-tip:nth-child(1) { animation-delay: 0.2s; }
+        #security-considerations .security-tip:nth-child(2) { animation-delay: 0.4s; }
+        #security-considerations .security-tip:nth-child(3) { animation-delay: 0.6s; }
+        #security-considerations .pro-tip { animation-delay: 0.8s; }
+
+
+        #live-demo-qa .qa-prompt { animation: bounceIn 1s ease-out forwards; opacity: 0; animation-delay: 0.5s;}
+
+        #future-trends .trend-item { animation: slideInLeft 1s ease-out forwards; opacity: 0;}
+        #future-trends .trend-item:nth-child(1) { animation-delay: 0.2s; }
+        #future-trends .trend-item:nth-child(2) { animation-delay: 0.4s; }
+        #future-trends .resource-link { animation: fadeIn 1s ease-out forwards; opacity: 0;}
+        #future-trends .resource-link:nth-child(1) { animation-delay: 0.6s; }
+        #future-trends .resource-link:nth-child(2) { animation-delay: 0.8s; }
+        #future-trends .resource-link:nth-child(3) { animation-delay: 1s; }
+
+        #conclusion .takeaway-item { animation: fadeIn 1s ease-out forwards; opacity: 0;}
+        #conclusion .takeaway-item:nth-child(1) { animation-delay: 0.2s; }
+        #conclusion .takeaway-item:nth-child(2) { animation-delay: 0.4s; }
+        #conclusion .takeaway-item:nth-child(3) { animation-delay: 0.6s; }
+        #conclusion .call-to-action { animation: bounceIn 1s ease-out forwards; opacity: 0; animation-delay: 0.8s; }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            .section {
+                padding: 1rem;
+            }
+            .grid-cols-3, .grid-cols-2 {
+                grid-template-columns: 1fr; /* Stack columns on small screens */
+            }
+            .flex-col-mobile {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title Slide -->
+    <section id="title-slide" class="section rounded-lg">
+        <div class="max-w-4xl w-full flex flex-col items-center justify-center h-full p-6 rounded-lg shadow-2xl">
+            <h1 class="hero-title text-shadow-lg drop-shadow-2xl">Building Intelligent Automation with AI Agents</h1>
+            <p class="hero-subtitle text-lg sm:text-xl md:text-2xl font-light text-white text-shadow-md">
+                Unlocking Productivity for Developers & Non-Developers Alike
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 items-center justify-center w-full">
+                <div class="flex items-center text-white text-lg animated-icon" style="animation-delay: 1s;">
+                    <i class="fas fa-clock mr-2 text-xl"></i>
+                    <span>Duration: 60 minutes</span>
+                </div>
+                <div class="flex items-center text-white text-lg animated-icon" style="animation-delay: 1.2s;">
+                    <i class="fas fa-users mr-2 text-xl"></i>
+                    <span>Target Audience: Beginners to Intermediate</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Introduction to AI Agents -->
+    <section id="intro-ai-agents" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg content">
+            <h2 class="text-4xl font-bold text-gray-800 mb-6 drop-shadow-sm">What are AI Agents?</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+                <div class="flex-1 text-left">
+                    <ul class="list-disc list-inside space-y-3 text-lg text-gray-700">
+                        <li><i class="fas fa-brain text-purple-600 mr-2"></i>Intelligent systems that perform tasks autonomously</li>
+                        <li><i class="fas fa-robot text-purple-600 mr-2"></i>Learn and interact with their environment</li>
+                        <li><i class="fas fa-chart-line text-purple-600 mr-2"></i>Enhance productivity by reducing repetitive work</li>
+                    </ul>
+                </div>
+                <div class="flex-none">
+                    <i class="fas fa-cogs text-6xl text-purple-500 animated-icon" style="animation: float 2s infinite ease-in-out;"></i>
+                </div>
+            </div>
+
+            <h3 class="text-3xl font-bold text-gray-800 mb-6 drop-shadow-sm">Why use AI Agents?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                <div class="feature-card p-6 bg-purple-50 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fas fa-hourglass-half text-5xl text-purple-600 mb-4 animated-icon" style="animation-delay: 1.2s;"></i>
+                    <p class="text-xl font-semibold text-gray-800">Save Time</p>
+                    <p class="text-gray-600">Automate tedious tasks, free up human potential.</p>
+                </div>
+                <div class="feature-card p-6 bg-purple-50 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fas fa-bug text-5xl text-purple-600 mb-4 animated-icon" style="animation-delay: 1.4s;"></i>
+                    <p class="text-xl font-semibold text-gray-800">Reduce Errors</p>
+                    <p class="text-gray-600">Consistent, accurate execution, less human error.</p>
+                </div>
+                <div class="feature-card p-6 bg-purple-50 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fas fa-rocket text-5xl text-purple-600 mb-4 animated-icon" style="animation-delay: 1.6s;"></i>
+                    <p class="text-xl font-semibold text-gray-800">Scale Operations</p>
+                    <p class="text-gray-600">Handle high volumes without increasing headcount.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: AI Agents in Action -->
+    <section id="ai-agents-in-action" class="section">
+        <div class="max-w-5xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">AI Agents in Action: The Core Components</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 relative">
+                <!-- LLM -->
+                <div class="component-box bg-blue-100 p-6 rounded-lg shadow-md flex flex-col items-center flex-1 min-w-[180px]">
+                    <i class="fas fa-comments text-5xl text-blue-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">Large Language Models (LLMs)</p>
+                    <span class="text-sm text-gray-600">(The Brain)</span>
+                </div>
+                <i class="fas fa-arrow-right text-4xl text-gray-500 arrow hidden md:block"></i>
+                <i class="fas fa-arrow-down text-4xl text-gray-500 arrow block md:hidden"></i>
+
+
+                <!-- Automation Tools -->
+                <div class="component-box bg-green-100 p-6 rounded-lg shadow-md flex flex-col items-center flex-1 min-w-[180px]">
+                    <i class="fas fa-tools text-5xl text-green-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">Automation Tools</p>
+                    <span class="text-sm text-gray-600">(The Hands)</span>
+                </div>
+                <i class="fas fa-arrow-right text-4xl text-gray-500 arrow hidden md:block"></i>
+                <i class="fas fa-arrow-down text-4xl text-gray-500 arrow block md:hidden"></i>
+
+
+                <!-- APIs & RAG -->
+                <div class="component-box bg-yellow-100 p-6 rounded-lg shadow-md flex flex-col items-center flex-1 min-w-[180px]">
+                    <i class="fas fa-plug text-5xl text-yellow-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">APIs & RAG</p>
+                    <span class="text-sm text-gray-600">(The Connectors)</span>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-purple-50 rounded-lg shadow-inner border border-purple-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Example Use Case: "Chat-to-Task" Automation</h3>
+                <p class="text-lg text-gray-700">Imagine telling an AI: <span class="font-semibold italic">"Summarize my daily sales report and email it to the team."</span></p>
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div class="bg-blue-200 text-blue-800 px-4 py-2 rounded-full font-medium">User Chat</div>
+                    <i class="fas fa-long-arrow-alt-right text-3xl text-gray-500"></i>
+                    <div class="bg-green-200 text-green-800 px-4 py-2 rounded-full font-medium">AI Agent Processes</div>
+                    <i class="fas fa-long-arrow-alt-right text-3xl text-gray-500"></i>
+                    <div class="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-full font-medium">Task Completed!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Approach 1 - Non-Developer Tools -->
+    <section id="non-dev-tools" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Approach 1: Non-Developer Friendly Tools</h2>
+            <p class="text-lg text-gray-700 mb-8">Empower your team without needing to write code.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- N8N Card -->
+                <div class="tool-card bg-indigo-50 p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-indigo-200">
+                    <i class="fas fa-bezier-curve text-6xl text-indigo-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">N8N: Drag-and-Drop Automation</h3>
+                    <p class="text-gray-700 mb-4">Visually build complex workflows with ease.</p>
+                    <ul class="list-disc list-inside text-left text-gray-600 space-y-2">
+                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Intuitive interface</li>
+                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Connects to hundreds of apps</li>
+                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Ideal for task automation & integrations</li>
+                    </ul>
+                </div>
+
+                <!-- Jan & LM Studio Card -->
+                <div class="tool-card bg-purple-50 p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-purple-200">
+                    <i class="fas fa-user-secret text-6xl text-purple-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Jan & LM Studio: Local AI for Privacy</h3>
+                    <p class="text-gray-700 mb-4">Run powerful AI models directly on your machine.</p>
+                    <ul class="list-disc list-inside text-left text-gray-600 space-y-2">
+                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Enhanced data privacy</li>
+                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Offline capabilities</li>
+                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Great for sensitive file analysis & summarization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-gray-100 rounded-lg shadow-inner">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Key Use Cases:</h3>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-lg text-gray-700 font-medium">
+                    <li class="flex items-center"><i class="fas fa-tasks text-blue-500 mr-2"></i>Task Automation</li>
+                    <li class="flex items-center"><i class="fas fa-file-alt text-blue-500 mr-2"></i>Summarization</li>
+                    <li class="flex items-center"><i class="fas fa-folder-open text-blue-500 mr-2"></i>Local File Analysis</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Approach 2 - Developer Tools -->
+    <section id="dev-tools" class="section">
+        <div class="max-w-5xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Approach 2: Developer Power Tools (RAG Pattern)</h2>
+            <p class="text-lg text-gray-700 mb-8">For custom logic, deep integration, and scalable solutions.</p>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-10">
+                <div class="rag-step bg-blue-50 p-6 rounded-lg shadow-md flex flex-col items-center border border-blue-200 transform hover:scale-105 transition-transform duration-300">
+                    <i class="fas fa-question-circle text-5xl text-blue-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">1. User Query</p>
+                    <span class="text-sm text-gray-600">"Summarize my sales report"</span>
+                </div>
+                <i class="fas fa-long-arrow-alt-right text-4xl text-gray-500 hidden md:block"></i>
+                <i class="fas fa-long-arrow-alt-down text-4xl text-gray-500 block md:hidden"></i>
+
+
+                <div class="rag-step bg-green-50 p-6 rounded-lg shadow-md flex flex-col items-center border border-green-200 transform hover:scale-105 transition-transform duration-300">
+                    <i class="fas fa-database text-5xl text-green-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">2. Data Retrieval</p>
+                    <span class="text-sm text-gray-600">Relevant info from your docs</span>
+                </div>
+                <i class="fas fa-long-arrow-alt-right text-4xl text-gray-500 hidden md:block"></i>
+                <i class="fas fa-long-arrow-alt-down text-4xl text-gray-500 block md:hidden"></i>
+
+
+                <div class="rag-step bg-purple-50 p-6 rounded-lg shadow-md flex flex-col items-center border border-purple-200 transform hover:scale-105 transition-transform duration-300">
+                    <i class="fas fa-lightbulb text-5xl text-purple-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">3. AI Response Generation</p>
+                    <span class="text-sm text-gray-600">Intelligent, context-aware reply</span>
+                </div>
+            </div>
+
+            <div class="code-container bg-gray-800 text-white rounded-lg p-6 shadow-xl relative text-left">
+                <h3 class="text-xl font-semibold text-gray-200 mb-4 flex items-center">
+                    <i class="fas fa-code mr-3 text-blue-400"></i>Python Code Snippet (Simplified RAG Agent)
+                </h3>
+                <pre class="whitespace-pre-wrap text-sm sm:text-base font-mono bg-gray-900 p-4 rounded-md overflow-x-auto border border-gray-700"><code>
+from langchain import HuggingFacePipeline, VectorDBRetriever
+
+# 1. Initialize your Language Model (LLM)
+# Think of this as giving your agent a brain
+llm = HuggingFacePipeline(...)
+
+# 2. Set up your data retriever (e.g., a Vector Database)
+# This allows the agent to 'read' your specific documents
+retriever = VectorDBRetriever(...)
+
+# 3. Create your intelligent Agent
+# Combining the brain (LLM) with the knowledge base (retriever)
+agent = Agent(llm=llm, retriever=retriever)
+
+# 4. Run the agent with a query
+# The agent now understands your request and retrieves relevant info
+response = agent.run("Summarize my sales report")
+
+# Result: An intelligent, data-driven summary!
+                </code></pre>
+                <button id="copy-code-btn" class="absolute top-4 right-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200 text-sm">
+                    <i class="fas fa-copy mr-2"></i>Copy Code
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Advanced Developer Use Cases -->
+    <section id="advanced-use-cases" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Beyond Basics: Advanced Developer Use Cases</h2>
+            <p class="text-lg text-gray-700 mb-8">Unleash the full potential with custom implementations.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                <!-- Real-time Data Processing -->
+                <div class="use-case-card bg-orange-50 p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-orange-200">
+                    <i class="fas fa-tachometer-alt text-6xl text-orange-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Real-time Data Processing</h3>
+                    <p class="text-gray-600">Instantly analyze streaming data for immediate insights.</p>
+                </div>
+                <!-- Custom APIs -->
+                <div class="use-case-card bg-teal-50 p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-teal-200">
+                    <i class="fas fa-code-branch text-6xl text-teal-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Custom APIs</h3>
+                    <p class="text-gray-600">Integrate AI capabilities into your existing systems seamlessly.</p>
+                </div>
+                <!-- Multi-step Agents -->
+                <div class="use-case-card bg-rose-50 p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-rose-200">
+                    <i class="fas fa-shoe-prints text-6xl text-rose-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Multi-step Agents</h3>
+                    <p class="text-gray-600">Automate complex processes requiring multiple actions.</p>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-indigo-50 rounded-lg shadow-inner border border-indigo-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Benefits:</h3>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-lg text-gray-700 font-medium">
+                    <li class="flex items-center"><i class="fas fa-lock text-purple-500 mr-2"></i>Full Control</li>
+                    <li class="flex items-center"><i class="fas fa-arrows-alt-h text-purple-500 mr-2"></i>Scalability</li>
+                    <li class="flex items-center"><i class="fas fa-wrench text-purple-500 mr-2"></i>Custom Logic</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Approach 3 - Hybrid Workflow -->
+    <section id="hybrid-workflow" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Approach 3: The Hybrid Workflow (Best of Both Worlds)</h2>
+            <p class="text-lg text-gray-700 mb-8">Combine no-code speed with developer flexibility.</p>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 relative">
+                <div class="tool-icon bg-green-100 p-6 rounded-full shadow-md flex flex-col items-center justify-center w-36 h-36 border-4 border-green-300">
+                    <i class="fas fa-mouse-pointer text-5xl text-green-600 mb-2"></i>
+                    <p class="text-md font-semibold text-gray-800">No-code Tools</p>
+                    <span class="text-sm text-gray-600">(e.g., N8N)</span>
+                </div>
+
+                <div class="relative w-48 h-20 flex items-center justify-center">
+                    <div class="w-full h-full border-4 border-dashed border-purple-400 rounded-full flex items-center justify-center hybrid-icon" style="animation: bounceIn 1.5s ease-out forwards; animation-delay: 0.8s;">
+                        <i class="fas fa-plus text-5xl text-purple-500"></i>
+                    </div>
+                </div>
+
+                <div class="tool-icon bg-blue-100 p-6 rounded-full shadow-md flex flex-col items-center justify-center w-36 h-36 border-4 border-blue-300">
+                    <i class="fas fa-laptop-code text-5xl text-blue-600 mb-2"></i>
+                    <p class="text-md font-semibold text-gray-800">Developer APIs</p>
+                    <span class="text-sm text-gray-600">(e.g., Python, Local Models)</span>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-purple-50 rounded-lg shadow-inner border border-purple-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Example: Trigger LM Studio from N8N</h3>
+                <p class="text-lg text-gray-700 mb-4">Use N8N to trigger a local AI model via a simple webhook.
+                    <span class="block text-sm text-gray-600 mt-2">
+                        This combines N8N's visual workflow with LM Studio's privacy for custom, powerful tasks.
+                    </span>
+                </p>
+                <div class="flex items-center justify-center gap-4 mt-6">
+                    <div class="bg-indigo-200 text-indigo-800 px-4 py-2 rounded-full font-medium">N8N Workflow</div>
+                    <i class="fas fa-long-arrow-alt-right text-3xl text-gray-500"></i>
+                    <div class="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-full font-medium">Webhook Trigger</div>
+                    <i class="fas fa-long-arrow-alt-right text-3xl text-gray-500"></i>
+                    <div class="bg-purple-200 text-purple-800 px-4 py-2 rounded-full font-medium">LM Studio Model</div>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-gray-100 rounded-lg shadow-inner">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Advantages:</h3>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-lg text-gray-700 font-medium">
+                    <li class="flex items-center"><i class="fas fa-expand-arrows-alt text-blue-500 mr-2"></i>Flexibility</li>
+                    <li class="flex items-center"><i class="fas fa-bolt text-blue-500 mr-2"></i>Rapid Prototyping</li>
+                    <li class="flex items-center"><i class="fas fa-shield-alt text-blue-500 mr-2"></i>Privacy-focused</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Security Considerations -->
+    <section id="security-considerations" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Security First: Important Considerations</h2>
+            <p class="text-lg text-gray-700 mb-8">Protecting your data and systems is paramount.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10">
+                <!-- Validate Inputs -->
+                <div class="security-tip bg-red-50 p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-red-200">
+                    <i class="fas fa-check-double text-6xl text-red-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Validate Inputs</h3>
+                    <p class="text-gray-600">Sanitize and verify all data entering your AI workflows.</p>
+                </div>
+                <!-- Encrypt Sensitive Data -->
+                <div class="security-tip bg-yellow-50 p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-yellow-200">
+                    <i class="fas fa-lock text-6xl text-yellow-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Encrypt Sensitive Data</h3>
+                    <p class="text-gray-600">Protect data at rest and in transit with strong encryption.</p>
+                </div>
+                <!-- Avoid Unnecessary Exposure -->
+                <div class="security-tip bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-blue-200">
+                    <i class="fas fa-cloud-slash text-6xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Avoid Unnecessary Exposure</h3>
+                    <p class="text-gray-600">Limit access to cloud APIs and external services.</p>
+                </div>
+            </div>
+
+            <div class="pro-tip p-6 bg-purple-100 rounded-lg shadow-inner border border-purple-300">
+                <h3 class="text-2xl font-bold text-purple-800 mb-3 flex items-center justify-center">
+                    <i class="fas fa-lightbulb text-purple-600 mr-3"></i>Pro Tip: Local LLMs for Critical Privacy
+                </h3>
+                <p class="text-lg text-purple-700">When data privacy is absolutely paramount, opt for running LLMs locally.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Live Demo & Q&A -->
+    <section id="live-demo-qa" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Live Demo & Q&A</h2>
+            <div class="flex flex-col items-center justify-center gap-6 mb-10">
+                <p class="text-lg text-gray-700">Get ready to see these concepts in action!</p>
+                <div class="flex flex-wrap justify-center gap-4 text-center">
+                    <div class="demo-option p-4 bg-blue-100 rounded-lg shadow-md border border-blue-200">
+                        <i class="fas fa-share-alt text-4xl text-blue-600 mb-2"></i>
+                        <p class="font-semibold text-gray-800">Simple N8N Workflow</p>
+                    </div>
+                    <div class="demo-option p-4 bg-green-100 rounded-lg shadow-md border border-green-200">
+                        <i class="fas fa-robot text-4xl text-green-600 mb-2"></i>
+                        <p class="font-semibold text-gray-800">Jan/LM Studio Chatbot</p>
+                    </div>
+                    <div class="demo-option p-4 bg-purple-100 rounded-lg shadow-md border border-purple-200">
+                        <i class="fas fa-code text-4xl text-purple-600 mb-2"></i>
+                        <p class="font-semibold text-gray-800">Python RAG Snippet</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="qa-prompt p-8 bg-indigo-50 rounded-lg shadow-inner border border-indigo-200">
+                <h3 class="text-3xl font-bold text-indigo-800 mb-4 flex items-center justify-center">
+                    <i class="fas fa-comments text-indigo-600 mr-4"></i>Your Turn!
+                </h3>
+                <p class="text-2xl font-semibold text-gray-800 italic">
+                    "Which approach suits your team: no-code, local apps, or custom code?"
+                </p>
+                <p class="text-md text-gray-600 mt-4">Feel free to ask any questions!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Future Trends & Resources -->
+    <section id="future-trends" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Future Trends & Resources</h2>
+            <div class="flex flex-col items-center justify-center gap-8 mb-10">
+                <h3 class="text-3xl font-bold text-gray-800 mb-4">Key Trends to Watch:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                    <div class="trend-item p-6 bg-purple-50 rounded-lg shadow-md border border-purple-200 flex flex-col items-center">
+                        <i class="fas fa-shield-alt text-5xl text-purple-600 mb-3"></i>
+                        <p class="text-xl font-semibold text-gray-800">AI Infrastructure Security</p>
+                        <p class="text-gray-600 text-center">Securing the complex layers of AI systems.</p>
+                    </div>
+                    <div class="trend-item p-6 bg-blue-50 rounded-lg shadow-md border border-blue-200 flex flex-col items-center">
+                        <i class="fas fa-cloud text-5xl text-blue-600 mb-3"></i>
+                        <p class="text-xl font-semibold text-gray-800">Cloud vs. Local LLMs</p>
+                        <p class="text-gray-600 text-center">Balancing scalability, cost, and privacy.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-gray-100 rounded-lg shadow-inner">
+                <h3 class="text-3xl font-bold text-gray-800 mb-5">Useful Resources:</h3>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="https://n8n.io" target="_blank" class="resource-link bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg flex items-center justify-center transform hover:scale-105">
+                        <i class="fas fa-external-link-alt mr-2"></i>N8N Templates
+                    </a>
+                    <a href="https://lmstudio.ai" target="_blank" class="resource-link bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg flex items-center justify-center transform hover:scale-105">
+                        <i class="fas fa-external-link-alt mr-2"></i>LM Studio SDK
+                    </a>
+                    <a href="https://jan.ai" target="_blank" class="resource-link bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg flex items-center justify-center transform hover:scale-105">
+                        <i class="fas fa-external-link-alt mr-2"></i>Jan AI Open Source
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Conclusion -->
+    <section id="conclusion" class="section">
+        <div class="max-w-4xl w-full p-6 bg-white rounded-xl shadow-lg">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 drop-shadow-sm">Conclusion: Your Path to Intelligent Automation</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10">
+                <div class="takeaway-item p-6 bg-blue-50 rounded-lg shadow-md border border-blue-200 flex flex-col items-center">
+                    <i class="fas fa-user-friends text-5xl text-blue-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">Non-Developers:</p>
+                    <p class="text-gray-600 text-center">Start with N8N & Jan for quick wins.</p>
+                </div>
+                <div class="takeaway-item p-6 bg-green-50 rounded-lg shadow-md border border-green-200 flex flex-col items-center">
+                    <i class="fas fa-laptop-code text-5xl text-green-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">Developers:</p>
+                    <p class="text-gray-600 text-center">Dive into Python & RAG for deep control.</p>
+                </div>
+                <div class="takeaway-item p-6 bg-purple-50 rounded-lg shadow-md border border-purple-200 flex flex-col items-center">
+                    <i class="fas fa-handshake text-5xl text-purple-600 mb-3"></i>
+                    <p class="text-xl font-semibold text-gray-800">Hybrid = Best of Both:</p>
+                    <p class="text-gray-600 text-center">Flexibility, rapid prototyping, and privacy.</p>
+                </div>
+            </div>
+
+            <div class="call-to-action p-8 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-3xl font-bold mb-4 drop-shadow-lg">Your Call to Action!</h3>
+                <p class="text-2xl font-semibold">
+                    "Start small: Automate one task this week using the tools you learned."
+                </p>
+                <i class="fas fa-arrow-circle-right text-6xl mt-6 animate-bounce"></i>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Function to copy code to clipboard
+        document.getElementById('copy-code-btn').addEventListener('click', function() {
+            const codeSnippet = document.querySelector('#dev-tools pre code').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeSnippet;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            // Provide visual feedback (e.g., change button text)
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+            this.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+            this.classList.add('bg-green-500');
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.classList.remove('bg-green-500');
+                this.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            }, 2000);
+        });
+
+        // Optional: Intersection Observer for animating sections as they come into view
+        const sections = document.querySelectorAll('.section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('*').forEach(el => {
+                        if (el.style.animation) {
+                            el.style.animationPlayState = 'running';
+                        }
+                    });
+                } else {
+                     // Optionally reset animations when out of view, or keep them to play only once
+                     // For this presentation, we'll let them play once.
+                     // If you want to replay on scroll up/down, uncomment below:
+                    // entry.target.querySelectorAll('*').forEach(el => {
+                    //     if (el.style.animation) {
+                    //         el.style.animationPlayState = 'paused';
+                    //     // Reset if you want to replay from start
+                    //     // el.style.animation = 'none';
+                    //     // el.offsetHeight; // Trigger reflow
+                    //     // el.style.animation = originalAnimation;
+                    //     }
+                    // });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // Initial animation state for all elements to be paused
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.section *').forEach(el => {
+                if (el.style.animation) {
+                    el.style.animationPlayState = 'paused';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
